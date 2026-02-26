@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
 using UnityEngine;
@@ -40,6 +42,10 @@ public class LevelGenerator : MonoBehaviour
                     GameObject brushInstance = Instantiate(_brushPrefab, _lineParent);
                     brushInstance.TryGetComponent(out LineRenderer currentLineRenderer);
 
+                    EdgeCollider2D collider = brushInstance.AddComponent<EdgeCollider2D>();
+                    collider.edgeRadius = 0.1f;
+                    List<Vector2> colliderPoints = new();
+
                     foreach (XmlNode node2 in node.ChildNodes)
                     {
                         //print($"Sub | Key : {node2.Name}, value : {node2.InnerText}");
@@ -55,6 +61,8 @@ public class LevelGenerator : MonoBehaviour
                                 // split, parse and assemble point pos
                                 currentLineRenderer.SetPosition(0, ParsingUtility.Vector3FromString(node2.InnerText));
                                 currentLineRenderer.SetPosition(1, ParsingUtility.Vector3FromString(node2.InnerText));
+
+                                colliderPoints.Add(ParsingUtility.Vector3FromString(node2.InnerText) + Vector3.right * 108.543f);
                                 break;
 
                             default:
@@ -63,10 +71,13 @@ public class LevelGenerator : MonoBehaviour
 
                                 // split, parse and assemble point pos
                                 currentLineRenderer.SetPosition(positionIndex, ParsingUtility.Vector3FromString(node2.InnerText));
+
+                                colliderPoints.Add(ParsingUtility.Vector3FromString(node2.InnerText) + Vector3.right * 108.543f);
                                 break;
                         }
 
                     }
+                    print(collider.SetPoints(colliderPoints));
                     break;
 
                 default:
@@ -75,7 +86,7 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        AddColliders();
+        //AddColliders(); 
     }
 
     private void AddColliders()
@@ -84,11 +95,17 @@ public class LevelGenerator : MonoBehaviour
         {
             lineTransform.gameObject.TryGetComponent(out LineRenderer lineRenderer);
 
+            Rigidbody rb = lineTransform.gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.useGravity = false;
+
             MeshCollider meshCollider = lineTransform.gameObject.AddComponent<MeshCollider>();
+            meshCollider.convex = true;
 
             Mesh mesh = new Mesh();
             lineRenderer.BakeMesh(mesh, true);
             meshCollider.sharedMesh = mesh;
+
         }
     }
 }
