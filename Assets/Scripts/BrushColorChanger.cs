@@ -11,7 +11,7 @@ public class BrushColorChanger : MonoBehaviour
     private Color _color;
     
     private static List<BrushColorChanger> _brushesColorChanger = new();
-    private static BrushColorChanger _currentBrush;
+    public static BrushColorChanger CurrentBrush;
 
     private Vector3 _basePos;
 
@@ -24,13 +24,18 @@ public class BrushColorChanger : MonoBehaviour
 
     public void OnClick()
     {
-        if (_currentBrush == this) return;
+        if (CurrentBrush == this)
+        {
+            CurrentBrush = null;
+            ResetPos();
+            return;
+        }
         foreach (var brush in _brushesColorChanger)
         {
             if (brush != this) brush.ResetPos();
         }
 
-        _currentBrush = this;
+        CurrentBrush = this;
 
         this.transform.DOMoveX(this.transform.position.x + 220, 0.5f);
         _painter.Color = _color;

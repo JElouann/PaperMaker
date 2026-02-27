@@ -6,8 +6,17 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    [Header("Brushes")]
     [SerializeField] private Transform _lineParent;
     [SerializeField] private GameObject _brushPrefab;
+
+    [Header("Stickers")]
+    [SerializeField] private GameObject _playerSpawnPrefab;
+    [SerializeField] private GameObject _levelEndPrefab;
+
+    [SerializeField] private GameObject _victoryPanel;
+    private GameObject _player;
+
 
     private void Start()
     {
@@ -75,9 +84,43 @@ public class LevelGenerator : MonoBehaviour
                                 colliderPoints.Add(ParsingUtility.Vector3FromString(node2.InnerText) + Vector3.right * 108.543f);
                                 break;
                         }
-
+                        collider.SetPoints(colliderPoints);
                     }
-                    print(collider.SetPoints(colliderPoints));
+                    break;
+
+                case string s when s.Contains("Player"):
+                    foreach(XmlNode childNode in node.ChildNodes)
+                    {
+                        switch (childNode.Name)
+                        {
+                            case "playerWorldPos":
+                                GameObject player = Instantiate(_playerSpawnPrefab);
+                                player.transform.position = ParsingUtility.Vector3FromString(childNode.InnerText);
+                                _player = player;
+                                break;
+
+                        }
+                    }
+                    break;
+
+                case string s when s.Contains("LevelEnd"):
+                    foreach (XmlNode childNode in node.ChildNodes)
+                    {
+                        switch (childNode.Name)
+                        {
+                            //case "levelEndUIPos":
+                            //    GameObject player = Instantiate(_playerSpawnPrefab);
+                            //    break;
+
+                            case "levelEndWorldPos":
+                                GameObject levelEndObject = Instantiate(_levelEndPrefab);
+                                levelEndObject.TryGetComponent(out LevelEnd levelEnd);
+                                levelEnd.VictoryPanel = _victoryPanel;
+                                levelEnd.Player = _player;
+                                levelEndObject.transform.position = ParsingUtility.Vector3FromString(childNode.InnerText);
+                                break;
+                        }
+                    }
                     break;
 
                 default:

@@ -44,7 +44,6 @@ public class PlayerJump : MonoBehaviour
 
             if (CanJump() && _lastPressedJumpTime > 0)
             {
-                LogManager.Instance.Log("Jump", "Debug");
                 Jump();
             }
         }

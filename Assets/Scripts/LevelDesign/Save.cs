@@ -41,6 +41,29 @@ public class Save : MonoBehaviour
             }
             _writer.WriteEndElement();
         }
+
+        print(StickerHandler.PlacedStickers.Count);
+
+        for (int i = 0; i < StickerHandler.PlacedStickers.Count; i++)
+        {
+            Sticker sticker = StickerHandler.PlacedStickers[i];
+            switch (sticker.StickerType)
+            {
+                case StickerType.Player:
+                    _writer.WriteStartElement("Player");
+                    WriteXML(_writer, "playerUIPos", sticker.transform.position.ToString());
+                    WriteXML(_writer, "playerWorldPos", Camera.main.ScreenToWorldPoint(sticker.transform.position).ToString());
+                    _writer.WriteEndElement();
+                    break;
+
+                case StickerType.LevelEnd:
+                    _writer.WriteStartElement("LevelEnd");
+                    WriteXML(_writer, "levelEndUIPos", sticker.transform.position.ToString());
+                    WriteXML(_writer, "levelEndWorldPos", Camera.main.ScreenToWorldPoint(sticker.transform.position).ToString());
+                    _writer.WriteEndElement();
+                    break;
+            }
+        }
         _writer.Close();
     }
 

@@ -33,7 +33,7 @@ public class Painter : MonoBehaviour
 
     private void Draw()
     {
-        if (_eventSystem.IsPointerOverGameObject()) return;
+        if (_eventSystem.IsPointerOverGameObject() || BrushColorChanger.CurrentBrush == null) return;
         if (Input.GetMouseButtonDown(0))
         {
             _mousePos = Input.mousePosition;
