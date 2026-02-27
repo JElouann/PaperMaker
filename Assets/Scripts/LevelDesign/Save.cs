@@ -42,8 +42,6 @@ public class Save : MonoBehaviour
             _writer.WriteEndElement();
         }
 
-        print(StickerHandler.PlacedStickers.Count);
-
         for (int i = 0; i < StickerHandler.PlacedStickers.Count; i++)
         {
             Sticker sticker = StickerHandler.PlacedStickers[i];
