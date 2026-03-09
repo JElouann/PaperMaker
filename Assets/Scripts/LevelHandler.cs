@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using System;
+using System.IO;
 using System.Xml;
 using Unity.Properties;
 using UnityEngine;
@@ -41,6 +42,13 @@ public class LevelHandler : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
     #endregion 
+
+    private void Start()
+    {
+        Directory.CreateDirectory(Application.persistentDataPath + "/RenderOutput/");
+        Directory.CreateDirectory(Application.persistentDataPath + "/RenderOutput/LevelDatas/");
+        Directory.CreateDirectory(Application.persistentDataPath + "/RenderOutput/LevelPreviews/");
+    }
 
     public void SelectLevelData(string levelTitle)
     {

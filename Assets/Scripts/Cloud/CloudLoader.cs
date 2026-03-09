@@ -31,8 +31,8 @@ public class CloudLoader : MonoBehaviour
 
         var playerData = await CloudSaveService.Instance.Data.Player.LoadAsync(keys, new LoadOptions(new PublicReadAccessClassOptions(_playerIDInput.text)));
 
-        CreateXMLFile(playerData[$"{levelName}_levelData"].Value.GetAsString());
-        CreateLevelPreview(playerData[$"{levelName}_previewImage"].Value.GetAsString());
+        await CreateXMLFile(playerData[$"{levelName}_levelData"].Value.GetAsString());
+        await CreateLevelPreview(playerData[$"{levelName}_previewImage"].Value.GetAsString());
 #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
 #endif
@@ -42,23 +42,26 @@ public class CloudLoader : MonoBehaviour
         SceneManager.LoadScene("LevelCollectionScene");
     }
 
-    private void CreateXMLFile(string data)
+    private async Task CreateXMLFile(string data)
     {
+        await Task.Yield();
         // DATA FILE
         XmlDocument dataFile = new XmlDocument();
         dataFile.LoadXml(data.Trim());
-        string path = Path.Combine(Application.streamingAssetsPath + "/RenderOutput/LevelDatas/" + _levelNameInput.text + "_levelData.xml");
+        string path = Path.Combine(Application.persistentDataPath + "/RenderOutput/LevelDatas/" + _levelNameInput.text + "_levelData.xml");
 
         dataFile.Save(path);
     }
 
-    private void CreateLevelPreview(string base64)
+    private async Task CreateLevelPreview(string base64)
     {
+        await Task.Yield();
+
         byte[] bytes = Convert.FromBase64String(base64);
 
         Texture2D texture = new(2, 2);
         texture.LoadImage(bytes);
 
-        File.WriteAllBytes(Application.streamingAssetsPath + "/RenderOutput/LevelPreviews/" + _levelNameInput.text + "_previewImage.png", bytes);
+        File.WriteAllBytes(Application.persistentDataPath + "/RenderOutput/LevelPreviews/" + _levelNameInput.text + "_previewImage.png", bytes);
     }
 }

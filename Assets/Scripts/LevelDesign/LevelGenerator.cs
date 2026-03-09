@@ -33,8 +33,8 @@ public class LevelGenerator : MonoBehaviour
             return;
         }
 
-        if (!System.IO.File.Exists(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + LevelHandler.Instance.SelectedLevelTitle + "_levelData.xml")) return;
-        saveFile.LoadXml(System.IO.File.ReadAllText(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + LevelHandler.Instance.SelectedLevelTitle + "_levelData.xml"));
+        if (!System.IO.File.Exists(Application.persistentDataPath + "/RenderOutput/LevelDatas/" + LevelHandler.Instance.SelectedLevelTitle + "_levelData.xml")) return;
+        saveFile.LoadXml(System.IO.File.ReadAllText(Application.persistentDataPath + "/RenderOutput/LevelDatas/" + LevelHandler.Instance.SelectedLevelTitle + "_levelData.xml"));
 
         string key;
         string value;
