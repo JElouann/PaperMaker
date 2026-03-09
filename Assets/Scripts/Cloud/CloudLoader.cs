@@ -47,7 +47,7 @@ public class CloudLoader : MonoBehaviour
         // DATA FILE
         XmlDocument dataFile = new XmlDocument();
         dataFile.LoadXml(data.Trim());
-        string path = Path.Combine(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + _levelNameInput.text + "_levelData.xml");
+        string path = Path.Combine(Application.streamingAssetsPath + "/RenderOutput/LevelDatas/" + _levelNameInput.text + "_levelData.xml");
 
         dataFile.Save(path);
     }
@@ -59,6 +59,6 @@ public class CloudLoader : MonoBehaviour
         Texture2D texture = new(2, 2);
         texture.LoadImage(bytes);
 
-        File.WriteAllBytes(Application.dataPath + "/Resources/RenderOutput/LevelPreviews/" + _levelNameInput.text + "_previewImage.png", bytes);
+        File.WriteAllBytes(Application.streamingAssetsPath + "/RenderOutput/LevelPreviews/" + _levelNameInput.text + "_previewImage.png", bytes);
     }
 }

@@ -19,7 +19,7 @@ public class Save : MonoBehaviour
 
     public void SaveFile()
     {
-        _writer = XmlWriter.Create(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + LevelNameInputField.text + "_levelData.xml", _xmlWriterSettings);
+        _writer = XmlWriter.Create(Application.streamingAssetsPath + "/RenderOutput/LevelDatas/" + LevelNameInputField.text + "_levelData.xml", _xmlWriterSettings);
         _writer.WriteStartDocument();
 
         _writer.WriteStartElement("PlayerData");
@@ -69,8 +69,8 @@ public class Save : MonoBehaviour
     {
         // checks if data exists and gets it
         XmlDocument levelDatas = new XmlDocument();
-        if (!System.IO.File.Exists(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + levelName + "_levelData.xml")) return new();
-        levelDatas.LoadXml(System.IO.File.ReadAllText(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + levelName + "_levelData.xml"));
+        if (!System.IO.File.Exists(Application.streamingAssetsPath + "/RenderOutput/LevelDatas/" + levelName + "_levelData.xml")) return new();
+        levelDatas.LoadXml(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/RenderOutput/LevelDatas/" + levelName + "_levelData.xml"));
 
         #region preview
         // gets preview
@@ -150,8 +150,8 @@ public class Save : MonoBehaviour
     public void LoadSave()
     {
         XmlDocument saveFile = new XmlDocument();
-        if (!System.IO.File.Exists(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + LevelNameInputField.text + "_levelData.xml")) return;
-        saveFile.LoadXml(System.IO.File.ReadAllText(Application.dataPath + "/Resources/RenderOutput/LevelDatas/" + LevelNameInputField.text + "_levelData.xml"));
+        if (!System.IO.File.Exists(Application.streamingAssetsPath + "/RenderOutput/LevelDatas/" + LevelNameInputField.text + "_levelData.xml")) return;
+        saveFile.LoadXml(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/RenderOutput/LevelDatas/" + LevelNameInputField.text + "_levelData.xml"));
 
         string key;
         string value;
