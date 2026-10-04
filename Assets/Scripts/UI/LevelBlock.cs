@@ -58,7 +58,8 @@ public class LevelBlock : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void Select()
     {
         _currentSelected = this;
-        OptionsUIFade.Unfade();
         LevelHandler.Instance.SelectLevelData(_title.text);
+        if (LevelHandler.Instance.SelectedLevelTitle == "") return;
+        OptionsUIFade.Unfade();
     }
 }
